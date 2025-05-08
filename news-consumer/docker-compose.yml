@@ -1,0 +1,24 @@
+networks:
+  book-network:
+    driver: bridge
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - book-network
+
+  news-consumer-app:
+    build: .
+    container_name: news-consumer-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    environment:
+      - SPRING_REDIS_HOST=redis
+    networks:
+      - book-network
