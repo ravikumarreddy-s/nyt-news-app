@@ -1,5 +1,6 @@
 package com.abc.news.consumer.service;
 
+import com.abc.news.consumer.model.Item;
 import com.abc.news.consumer.model.RssFeed;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,18 +20,25 @@ import java.util.Locale;
 public class KafkaRssConsumer {
 
 
+//    @Autowired
+//    private RedisService redisService;
+
     @Autowired
-    private RedisService redisService;
+    private ItemStorageService itemStorageService;
+
+    private final String redisKey = "articles:";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @KafkaListener(topics = "nyt.rss.articles", groupId = "news-consumer-group")
     public void consume(String message, @Header(value = KafkaHeaders.RECEIVED_KEY, required = false) String key) {
         try {
-            RssFeed.Item article = objectMapper.readValue(message, RssFeed.Item.class);
+            Item article = objectMapper.readValue(message, Item.class);
             log.info("Received Article Key: {} and Title: {}",key,article.getTitle() );
-            if(!isOlderThan24Hours(article.getPubDate()) && redisService.get(key)!=null) {
-                redisService.save(key,objectMapper.writeValueAsString(article));
+            itemStorageService.saveArticles(article,key);
+
+            if(!isOlderThan24Hours(article.getPubDate()) && !itemStorageService.getArticleById(key).isEmpty()) {
+                itemStorageService.saveArticles(article,key);
                 log.info("Stored Article Key: {} in Redis",key);
             }else{
                 log.info("Skipping Article Key: {}",key);

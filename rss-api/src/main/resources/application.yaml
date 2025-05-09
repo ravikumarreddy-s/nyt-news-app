@@ -1,0 +1,10 @@
+server:
+  port: 9083
+spring:
+  application:
+    name: rss-api
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: 6379
+      timeout: 5s

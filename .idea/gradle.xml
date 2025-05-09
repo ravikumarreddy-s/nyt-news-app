@@ -12,6 +12,14 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/rss-api" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/rss-api" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/rss-processor" />
         <option name="gradleJvm" value="openjdk-17" />
         <option name="modules">
