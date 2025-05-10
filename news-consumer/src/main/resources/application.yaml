@@ -1,6 +1,8 @@
 server:
   port: 9087
 spring:
+  application:
+    name: news-consumer
   kafka:
     bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
     consumer:

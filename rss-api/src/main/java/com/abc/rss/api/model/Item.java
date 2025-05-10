@@ -1,7 +1,5 @@
 package com.abc.rss.api.model;
 
-import java.time.ZonedDateTime;
-
 public class Item {
         private String title;
         private String link;

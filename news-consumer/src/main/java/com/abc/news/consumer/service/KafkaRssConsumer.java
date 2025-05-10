@@ -1,7 +1,6 @@
 package com.abc.news.consumer.service;
 
 import com.abc.news.consumer.model.Item;
-import com.abc.news.consumer.model.RssFeed;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -19,16 +18,15 @@ import java.util.Locale;
 @Slf4j
 public class KafkaRssConsumer {
 
-
-//    @Autowired
-//    private RedisService redisService;
-
-    @Autowired
     private ItemStorageService itemStorageService;
 
     private final String redisKey = "articles:";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public KafkaRssConsumer(ItemStorageService itemStorageService){
+        this.itemStorageService=itemStorageService;
+    }
 
     @KafkaListener(topics = "nyt.rss.articles", groupId = "news-consumer-group")
     public void consume(String message, @Header(value = KafkaHeaders.RECEIVED_KEY, required = false) String key) {
@@ -46,7 +44,6 @@ public class KafkaRssConsumer {
 
         } catch (JsonProcessingException e) {
             log.error("Failed to parse message:{}",message);
-            System.err.println("Failed to parse message: " + message);
         }
     }
 

@@ -57,3 +57,15 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     networks:
       - news-network
+
+  rss-api:
+    build: ./rss-api
+    container_name: rss-api
+    ports:
+      - "8083:8083"
+    depends_on:
+      - redis
+    environment:
+      SPRING_REDIS_HOST: redis
+    networks:
+      - news-network

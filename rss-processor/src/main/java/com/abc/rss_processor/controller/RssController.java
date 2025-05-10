@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RssController {
 
-    @Autowired
     private RssService rssService;
 
-    @Autowired
     private RssMessagePublisher rssMessagePublisher;
+
+    public RssController(RssService rssService,RssMessagePublisher rssMessagePublisher){
+        this.rssMessagePublisher=rssMessagePublisher;
+        this.rssService=rssService;
+    }
 
     @GetMapping("/rss-json")
     public RssFeed getRssAsJson(@RequestParam String url) throws Exception {

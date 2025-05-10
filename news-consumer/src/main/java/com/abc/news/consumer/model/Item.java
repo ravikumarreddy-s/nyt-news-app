@@ -1,7 +1,5 @@
 package com.abc.news.consumer.model;
 
-import java.time.ZonedDateTime;
-
 public class Item {
         private String title;
         private String link;
